@@ -1,0 +1,220 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MultiTools - Dashboard</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f0f10;
+      --card:#141416;
+      --accent:#ff3b30; /* red theme */
+      --muted:#9aa0a6;
+      --glass: rgba(255,255,255,0.04);
+      --radius:12px;
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:linear-gradient(180deg,#0b0b0c 0%, #0f0f10 100%);color:#e8e8e8}
+    .container{max-width:1100px;margin:32px auto;padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#ff6b6b);display:flex;align-items:center;justify-content:center;font-weight:700;color:#111}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:0;color:var(--muted)}
+    .card{background:var(--card);padding:18px;border-radius:var(--radius);box-shadow:0 6px 20px rgba(0,0,0,0.6);}
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:20px;margin-top:20px}
+    .tools{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .tool{padding:14px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
+    .tool h3{margin:0 0 6px 0}
+    .tool p{margin:0;color:var(--muted);font-size:13px}
+    .sidebar{display:flex;flex-direction:column;gap:12px}
+    form.login{display:flex;flex-direction:column;gap:12px}
+    input[type=text],input[type=password]{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
+    button{padding:10px 12px;border-radius:10px;border:0;background:var(--accent);color:#fff;font-weight:600;cursor:pointer}
+    .small{font-size:12px;color:var(--muted)}
+    footer{margin-top:24px;color:var(--muted);font-size:13px;text-align:center}
+    .menu{display:flex;gap:8px}
+    .menu button{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:8px;color:var(--muted)}
+    @media(max-width:900px){.grid{grid-template-columns:1fr}.tools{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">MT</div>
+        <div>
+          <h1>MultiTools</h1>
+          <p class="lead">All-in-one downloader & utilities — secure, fast, simple</p>
+        </div>
+      </div>
+      <div class="menu">
+        <button>Home</button>
+        <button>Features</button>
+        <button>Docs</button>
+        <button>Contact</button>
+      </div>
+    </header><div class="grid">
+  <div>
+    <div class="card">
+      <h2>Dashboard</h2>
+      <p class="small">Logged in as <strong>username</strong></p>
+
+      <div style="margin-top:16px" class="tools">
+        <div class="tool" onclick="openTool('tiktok')">
+          <h3>TikTok Downloader</h3>
+          <p>Download TikTok videos (no watermark) via API.</p>
+        </div>
+        <div class="tool" onclick="openTool('youtube')">
+          <h3>YouTube Downloader</h3>
+          <p>Extract video or audio via API.</p>
+        </div>
+        <div class="tool" onclick="openTool('instagram')">
+          <h3>Instagram Downloader</h3>
+          <p>Download photos, reels, and stories.</p>
+        </div>
+        <div class="tool" onclick="openTool('facebook')">
+          <h3>Facebook Downloader</h3>
+          <p>Download posts & videos.</p>
+        </div>
+        <div class="tool" onclick="openTool('qr')">
+          <h3>QR Code Generator</h3>
+          <p>Create QR codes from text, URL, or vCard.</p>
+        </div>
+        <div class="tool" onclick="openTool('other')">
+          <h3>More Tools</h3>
+          <p>Shortener, Base64, Timestamp converter, and more.</p>
+        </div>
+      </div>
+
+      <footer>
+        <div>API-powered — remember to configure your API keys in server settings.</div>
+        <div style="margin-top:6px">© <span id="year"></span> MultiTools</div>
+      </footer>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="card">
+      <h3>Account</h3>
+      <p class="small">Secure login with username & password</p>
+
+      <form class="login" onsubmit="event.preventDefault();login()">
+        <input type="text" id="user" placeholder="Username" required />
+        <input type="password" id="pass" placeholder="Password" required />
+        <button type="submit">Sign in</button>
+        <div class="small">Need an account? Contact the admin.</div>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3>Active Tool</h3>
+      <div id="toolPane"><p class="small">Select a tool to get started.</p></div>
+    </div>
+
+    <div class="card">
+      <h3>Quick Settings</h3>
+      <div class="small">Theme: <strong>Red</strong></div>
+      <div class="small">API Mode: <strong>Enabled</strong></div>
+    </div>
+  </aside>
+</div>
+
+  </div>  <script>
+    document.getElementById('year').innerText = new Date().getFullYear();
+
+    function login(){
+      const u = document.getElementById('user').value;
+      const p = document.getElementById('pass').value;
+      // simple mock login (replace with real API call to backend)
+      if(u === 'admin' && p === 'password'){
+        alert('Login successful');
+        // redirect to dashboard or load user data
+      } else {
+        alert('Invalid credentials');
+      }
+    }
+
+    function openTool(id){
+      const pane = document.getElementById('toolPane');
+      if(id === 'tiktok'){
+        pane.innerHTML = `
+          <h4>TikTok Downloader</h4>
+          <p class="small">Paste video URL and press Download.</p>
+          <input id="turl" type="text" placeholder="https://www.tiktok.com/@..." style="width:100%;padding:8px;border-radius:8px;margin-top:8px" />
+          <button style="margin-top:8px" onclick="callApi('tiktok')">Download</button>
+        `;
+      } else if(id === 'youtube'){
+        pane.innerHTML = `
+          <h4>YouTube Downloader</h4>
+          <p class="small">Paste video URL and choose format.</p>
+          <input id="yurl" type="text" placeholder="https://www.youtube.com/watch?v=..." style="width:100%;padding:8px;border-radius:8px;margin-top:8px" />
+          <select id="yformat" style="width:100%;padding:8px;border-radius:8px;margin-top:8px">
+            <option value="mp4">MP4 (video)</option>
+            <option value="mp3">MP3 (audio)</option>
+          </select>
+          <button style="margin-top:8px" onclick="callApi('youtube')">Download</button>
+        `;
+      } else if(id === 'instagram'){
+        pane.innerHTML = `
+          <h4>Instagram Downloader</h4>
+          <input id="iurl" type="text" placeholder="https://www.instagram.com/p/..." style="width:100%;padding:8px;border-radius:8px;margin-top:8px" />
+          <button style="margin-top:8px" onclick="callApi('instagram')">Download</button>
+        `;
+      } else if(id === 'facebook'){
+        pane.innerHTML = `
+          <h4>Facebook Downloader</h4>
+          <input id="furl" type="text" placeholder="https://www.facebook.com/..." style="width:100%;padding:8px;border-radius:8px;margin-top:8px" />
+          <button style="margin-top:8px" onclick="callApi('facebook')">Download</button>
+        `;
+      } else if(id === 'qr'){
+        pane.innerHTML = `
+          <h4>QR Code Generator</h4>
+          <input id="qrtext" type="text" placeholder="Text or URL" style="width:100%;padding:8px;border-radius:8px;margin-top:8px" />
+          <button style="margin-top:8px" onclick="callApi('qr')">Generate</button>
+          <div id="qrout" style="margin-top:8px"></div>
+        `;
+      } else {
+        pane.innerHTML = `<p class=\"small\">More tools will be added soon.</p>`;
+      }
+    }
+
+    async function callApi(tool){
+      try{
+        if(tool === 'tiktok'){
+          const url = document.getElementById('turl').value;
+          const res = await fetch('/api/tiktok?url=' + encodeURIComponent(url));
+          const data = await res.json();
+          alert(JSON.stringify(data));
+        } else if(tool === 'youtube'){
+          const url = document.getElementById('yurl').value;
+          const fmt = document.getElementById('yformat').value;
+          const res = await fetch('/api/youtube?url=' + encodeURIComponent(url) + '&format=' + fmt);
+          const data = await res.json();
+          alert(JSON.stringify(data));
+        } else if(tool === 'instagram'){
+          const url = document.getElementById('iurl').value;
+          const res = await fetch('/api/instagram?url=' + encodeURIComponent(url));
+          const data = await res.json();
+          alert(JSON.stringify(data));
+        } else if(tool === 'facebook'){
+          const url = document.getElementById('furl').value;
+          const res = await fetch('/api/facebook?url=' + encodeURIComponent(url));
+          const data = await res.json();
+          alert(JSON.stringify(data));
+        } else if(tool === 'qr'){
+          const text = document.getElementById('qrtext').value;
+          const out = document.getElementById('qrout');
+          out.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(text)}" alt="QR" />`;
+        }
+      }catch(e){
+        alert('API error: ' + e.message);
+      }
+    }
+  </script></body>
+</html>
