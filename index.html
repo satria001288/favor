@@ -3,165 +3,95 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Red Dashboard Login</title>
+  <title>LuminarPanel</title>
   <style>
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: "Poppins", sans-serif;
-      background: #1a1a1a;
-      color: #fff;
-    }
-
-    .login-container {
+      background: radial-gradient(circle at top, #111, #000);
+      color: white;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: linear-gradient(135deg, #ff0000, #7a0000);
     }
-
-    .login-box {
-      background: #222;
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-      width: 320px;
+    .container {
+      width: 380px;
+      padding: 30px;
+      background: rgba(255,255,255,0.05);
+      border: 2px solid red;
+      border-radius: 15px;
+      box-shadow: 0 0 20px red;
       text-align: center;
     }
-
-    .login-box h2 {
-      margin-bottom: 20px;
-      color: #ff3b3b;
-    }
-
+    h1 { color: red; margin-bottom: 20px; }
     input {
       width: 100%;
       padding: 10px;
-      margin: 8px 0;
+      margin: 10px 0;
       border: none;
-      border-radius: 6px;
+      border-radius: 5px;
+      background: #111;
+      color: white;
     }
-
     button {
-      background: #ff3b3b;
-      border: none;
       width: 100%;
       padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: red;
       color: white;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 10px;
       font-weight: bold;
+      cursor: pointer;
     }
-
-    button:hover {
-      background: #ff5c5c;
-    }
-
-    .dashboard {
+    button:hover { background: #ff3333; }
+    #dashboard {
       display: none;
-      padding: 30px;
-      background: #111;
-      height: 100vh;
+      text-align: left;
     }
-
-    .feature-card {
-      background: #222;
-      border-radius: 10px;
-      padding: 15px;
-      margin: 10px;
-      box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+    a {
+      color: #ff4444;
+      text-decoration: none;
+      display: block;
+      margin: 8px 0;
     }
-
-    .feature-card h3 {
-      color: #ff4d4d;
-    }
-
-    input[type="text"] {
-      background: #333;
-      color: #fff;
-    }
+    a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-  <div class="login-container" id="loginPage">
-    <div class="login-box">
-      <h2>Login to Dashboard</h2>
+  <div class="container">
+    <div id="login">
+      <h1>Login Panel</h1>
       <input type="text" id="username" placeholder="Username" />
       <input type="password" id="password" placeholder="Password" />
       <button onclick="login()">Login</button>
-      <p id="loginMsg"></p>
-    </div>
-  </div>
-
-  <div class="dashboard" id="dashboardPage">
-    <h1>🔥 Red Dashboard</h1>
-    <p>Welcome, <span id="userDisplay"></span>!</p>
-    <hr />
-
-    <div class="feature-card">
-      <h3>TikTok Downloader</h3>
-      <input type="text" id="tiktokUrl" placeholder="TikTok URL" />
-      <button onclick="downloadTikTok()">Download</button>
-      <pre id="tiktokResult"></pre>
     </div>
 
-    <div class="feature-card">
-      <h3>YouTube Downloader</h3>
-      <input type="text" id="youtubeUrl" placeholder="YouTube URL" />
-      <button onclick="downloadYouTube()">Download</button>
-      <pre id="youtubeResult"></pre>
-    </div>
-
-    <div class="feature-card">
-      <h3>QR Code Generator</h3>
-      <input type="text" id="qrText" placeholder="Enter text for QR" />
-      <button onclick="generateQR()">Generate</button>
-      <div id="qrResult"></div>
+    <div id="dashboard">
+      <h1>Dashboard</h1>
+      <p>Selamat datang, <span id="userDisplay"></span>!</p>
+      <h3>Downloader Menu</h3>
+      <a href="/api/tiktok?url=https://vt.tiktok.com/example">🎵 TikTok Downloader</a>
+      <a href="/api/youtube?url=https://youtube.com/watch?v=example">▶️ YouTube Downloader</a>
+      <a href="/api/instagram?url=https://www.instagram.com/reel/example">📸 Instagram Downloader</a>
+      <a href="/api/facebook?url=https://fb.watch/example">📘 Facebook Downloader</a>
+      <a href="/api/twitter?url=https://x.com/example">🐦 Twitter Downloader</a>
     </div>
   </div>
 
   <script>
-    async function login() {
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
-      });
-      const data = await res.json();
-      if (data.success) {
-        document.getElementById("loginPage").style.display = "none";
-        document.getElementById("dashboardPage").style.display = "block";
-        document.getElementById("userDisplay").innerText = username;
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+      if (user === "satria2882011" && pass === "1234567890") {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("dashboard").style.display = "block";
+        document.getElementById("userDisplay").textContent = user;
       } else {
-        document.getElementById("loginMsg").innerText = "❌ Invalid login!";
-      }
-    }
-
-    async function downloadTikTok() {
-      const url = document.getElementById("tiktokUrl").value;
-      const res = await fetch(`/api/tiktok?url=${encodeURIComponent(url)}`);
-      const data = await res.json();
-      document.getElementById("tiktokResult").innerText = JSON.stringify(data, null, 2);
-    }
-
-    async function downloadYouTube() {
-      const url = document.getElementById("youtubeUrl").value;
-      const res = await fetch(`/api/youtube?url=${encodeURIComponent(url)}`);
-      const data = await res.json();
-      document.getElementById("youtubeResult").innerText = JSON.stringify(data, null, 2);
-    }
-
-    async function generateQR() {
-      const text = document.getElementById("qrText").value;
-      const res = await fetch(`/api/qrcode?text=${encodeURIComponent(text)}`);
-      const data = await res.json();
-      if (data.qr) {
-        document.getElementById("qrResult").innerHTML = `<img src="${data.qr}" alt="QR Code" />`;
+        alert("Login gagal!");
       }
     }
   </script>
 </body>
-</html></html>
+</html>
