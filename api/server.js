@@ -1,13 +1,13 @@
 const express = require("express");
 const app = express();
 
-// Middleware biar JSON bisa dibaca
+// Middleware (opsional)
 app.use(express.json());
 
 // Route utama
 app.get("/", (req, res) => {
-  res.send("Server berjalan 🔥 (via Vercel API)");
+  res.send("✅ Server berjalan di Vercel!");
 });
 
-// Jangan app.listen — Vercel yang handle
+// Export handler (tanpa app.listen)
 module.exports = app;
