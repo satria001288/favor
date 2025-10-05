@@ -1,13 +1,13 @@
 const express = require("express");
 const app = express();
-const PORT = 3000;
+
+// Middleware biar JSON bisa dibaca
+app.use(express.json());
 
 // Route utama
 app.get("/", (req, res) => {
-  res.send("Server berjalan 🔥");
+  res.send("Server berjalan 🔥 (via Vercel API)");
 });
 
-// Jalankan server
-app.listen(PORT, () => {
-  console.log(`✅ Server aktif di http://localhost:${PORT}`);
-});
+// Jangan app.listen — Vercel yang handle
+module.exports = app;
