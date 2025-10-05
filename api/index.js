@@ -1,3 +1,8 @@
-const app = require("./server");
+const express = require("express");
+const app = express();
 
-export default app;
+app.get("/", (req, res) => {
+  res.send("Server berjalan 🔥");
+});
+
+module.exports = app;
